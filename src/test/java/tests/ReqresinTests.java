@@ -1,5 +1,7 @@
 package tests;
 
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,20 +9,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.*;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static tests.ReqresEndpoints.*;
 
-public class ReqresinTests {
+public class ReqresinTests extends TestBase {
 
-    String baseUrl = "https://reqres.in";
-    String loginUrl = "/api/login";
+    String token = "QpwL5tke4Pnpja7X4";
     String errorMessage = "Missing password";
     String bodyForUnsuccessfulLogin = "{\"email\": \"peter@klaven\"}";
-    String userListUrl = "/api/users?page=2";
-    String registerUrl = "/api/register";
     String bodyForRegistration = "{\"email\": \"eve.holt@reqres.in\",\"password\": \"pistol\"}";
-    String deleteUrl = "/api/users/2";
-    String bodyEmpty = "/api/users/23";
 
     @Test
     @DisplayName("Проверка авторизации без пароля")
@@ -29,7 +26,7 @@ public class ReqresinTests {
                 .body(bodyForUnsuccessfulLogin)
                 .contentType(JSON)
                 .when()
-                .post(baseUrl + loginUrl)
+                .post(loginUrl)
                 .then()
                 .statusCode(400)
                 .body("error", is(errorMessage));
@@ -41,7 +38,7 @@ public class ReqresinTests {
             "Byron, Fields",
     })
     void checkUserListTest(String first_name, String last_name) {
-        get(baseUrl + userListUrl)
+        get(userListUrl)
                 .then()
                 .statusCode(200)
                 .body("data.first_name", hasItem(first_name))
@@ -55,17 +52,18 @@ public class ReqresinTests {
                 .body(bodyForRegistration)
                 .contentType(JSON)
                 .when()
-                .post(baseUrl + registerUrl)
+                .post(registerUrl)
                 .then()
                 .statusCode(200)
                 .body("id", is(4))
-                .body("token", is("QpwL5tke4Pnpja7X4"));
+                .body("token", is(token))
+                .body("token", notNullValue());
     }
 
     @Test
     @DisplayName("Проверка DELETE")
     void checkDeleteTest() {
-        delete(baseUrl + deleteUrl)
+        delete(deleteUrl)
                 .then()
                 .statusCode(204);
     }
@@ -73,7 +71,7 @@ public class ReqresinTests {
     @Test
     @DisplayName("Поиск пользователя в пустом списке")
     void userNotFoundTest() {
-        get(baseUrl + bodyEmpty)
+        get(bodyEmpty)
                 .then()
                 .statusCode(404);
     }
