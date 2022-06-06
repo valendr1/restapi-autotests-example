@@ -56,7 +56,6 @@ public class ReqresinTests extends TestBase {
                 .then()
                 .statusCode(200)
                 .body("id", is(4))
-                .body("token", is(token))
                 .body("token", notNullValue());
     }
 
