@@ -2,7 +2,7 @@ package config;
 
 import org.aeonbits.owner.Config;
 
-@Config.Sources("classpath:config.properties")
+@Config.Sources("classpath:tpl/config.properties")
 public interface CredentialsConfig extends Config {
     String loginSelenoid();
     String passwordSelenoid();
