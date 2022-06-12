@@ -1,7 +1,5 @@
-package tests;
+package tests.reqresin;
 
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,11 +8,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.*;
 import static org.hamcrest.Matchers.*;
-import static tests.ReqresEndpoints.*;
+import static tests.reqresin.ReqresEndpoints.*;
 
-public class ReqresinTests extends TestBase {
+public class ReqresinTests extends TestBaseReqresin {
 
-    String token = "QpwL5tke4Pnpja7X4";
     String errorMessage = "Missing password";
     String bodyForUnsuccessfulLogin = "{\"email\": \"peter@klaven\"}";
     String bodyForRegistration = "{\"email\": \"eve.holt@reqres.in\",\"password\": \"pistol\"}";

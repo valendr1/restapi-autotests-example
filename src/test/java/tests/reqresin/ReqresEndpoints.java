@@ -1,4 +1,4 @@
-package tests;
+package tests.reqresin;
 
 public class ReqresEndpoints {
     public static final String loginUrl = "/api/login";
